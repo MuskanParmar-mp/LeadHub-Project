@@ -526,7 +526,7 @@ function Login() {
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email / Username"
                   value={formData.email}
                   onChange={handleChange}
                   autoComplete="email"
