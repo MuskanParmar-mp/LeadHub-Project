@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../../assets/cyblogo.png";
 
 function Sidebar({ isOpen, setIsOpen }) {
 
@@ -40,9 +41,18 @@ function Sidebar({ isOpen, setIsOpen }) {
           <div className="flex items-center gap-3">
 
             {/* Logo Icon */}
-            <div className="w-10 h-10 rounded-xl bg-[#16A3D3] flex items-center justify-center font-bold text-xl shadow-lg">
+            {/* <div className="w-10 h-10 rounded-xl bg-[#16A3D3] flex items-center justify-center font-bold text-xl shadow-lg">
               C
-            </div>
+            </div> */}
+            <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden shrink-0">
+            
+                          <img
+                            src={logo}
+                            alt="Cybrom Technology"
+                            className="w-full h-full object-contain p-1.5"
+                          />
+            
+                        </div>
 
             <div>
               <h2 className="text-lg font-bold tracking-wide">

@@ -50,7 +50,7 @@ function Login() {
         setLoading(false);
 
         // Dashboard par redirect
-        navigate("/dashboard");
+        navigate("/admin");
       } else {
         setLoading(false);
         alert("Invalid email or password");
@@ -69,7 +69,7 @@ function Login() {
 
     setLoading(false);
 
-    navigate("/dashboard");
+    navigate("/admin");
   }, 500);
 };
 
