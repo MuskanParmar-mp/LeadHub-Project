@@ -1,9 +1,10 @@
-import Login from "./Login";
+import React from "react";
+import AdminDashboard from "./pages/AdminDashboard";
 
-function App(){
-  return(
+function App() {
+  return (
     <>
-     <Login />
+    <AdminDashboard />
     </>
   )
 }
