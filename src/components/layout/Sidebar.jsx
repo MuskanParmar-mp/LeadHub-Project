@@ -1,6 +1,12 @@
 import React from "react";
 
 function Sidebar({ isOpen, setIsOpen }) {
+
+    const handleLogout = () => {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "/login";
+};
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -240,20 +246,22 @@ function Sidebar({ isOpen, setIsOpen }) {
 
           {/* Logout */}
           <button
-            className="
-              w-full flex items-center gap-3
-              px-4 py-3
-              rounded-xl
-              text-[#F28A3B]
-              hover:bg-[#F28A3B]/10
-              transition-all duration-200
-            "
-          >
-            <span className="text-lg">↪</span>
-            <span className="text-sm font-medium">
-              Logout
-            </span>
-          </button>
+  onClick={handleLogout}
+  className="
+    w-full flex items-center gap-3
+    px-4 py-3
+    rounded-xl
+    text-[#F28A3B]
+    hover:bg-[#F28A3B]/10
+    transition-all duration-200
+  "
+>
+  <span className="text-lg">↪</span>
+
+  <span className="text-sm font-medium">
+    Logout
+  </span>
+</button>
 
         </div>
 
