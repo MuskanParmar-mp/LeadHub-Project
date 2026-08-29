@@ -22,55 +22,77 @@ function Login() {
   };
 
   // LOGIN
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!formData.email || !formData.password) {
-      alert("Please enter email and password");
-      return;
-    }
+  if (!formData.email || !formData.password) {
+    alert("Please enter email and password");
+    return;
+  }
 
-    setLoading(true);
-
-    // Demo Admin Login
-    setTimeout(() => {
-      if (
-        formData.email === "admin@cybromleadhub.com" &&
-        formData.password === "Admin@123"
-      ) {
-        // Save login information
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userRole", "admin");
-        localStorage.setItem("userEmail", formData.email);
-
-        if (rememberMe) {
-          localStorage.setItem("rememberMe", "true");
-        }
-
-        setLoading(false);
-
-        // Dashboard par redirect
-        navigate("/admin");
-      } else {
-        setLoading(false);
-        alert("Invalid email or password");
-      }
-    }, 1000);
-  };
-
-  // DEMO LOGIN
- const handleDemoLogin = () => {
   setLoading(true);
 
-  setTimeout(() => {
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userRole", "admin");
-    localStorage.setItem("userEmail", "admin@cybromleadhub.com");
+  try {
+    const response = await fetch("http://127.0.0.1:8000/login/", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      credentials: "include",
+
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Login successful
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userRole", data.role || "admin");
+      localStorage.setItem(
+        "userEmail",
+        data.email || formData.email
+      );
+
+      if (rememberMe) {
+        localStorage.setItem("rememberMe", "true");
+      } else {
+        localStorage.removeItem("rememberMe");
+      }
+
+      setLoading(false);
+
+      // Dashboard only after successful login
+      navigate("/admin");
+    } else {
+      setLoading(false);
+
+      alert(data.message || "Invalid email or password");
+    }
+  } catch (error) {
+    console.error("Login Error:", error);
 
     setLoading(false);
 
-    navigate("/admin");
-  }, 500);
+    alert(
+      "Unable to connect to server. Please make sure Django backend is running."
+    );
+  }
+};
+
+
+
+  // DEMO LOGIN
+const handleDemoLogin = () => {
+  setFormData({
+    email: "admin@cybromleadhub.com",
+    password: "Admin@123",
+  });
 };
 
   return (

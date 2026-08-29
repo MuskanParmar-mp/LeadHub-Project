@@ -274,6 +274,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 </button>
 
         </div>
+        
 
       </aside>
     </>

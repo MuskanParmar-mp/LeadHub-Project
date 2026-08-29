@@ -1,3 +1,7 @@
+
+
+
+
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -5,7 +9,6 @@ import Login from "./Login";
 import AdminDashboard from "./pages/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-
 
 function App() {
   return (
@@ -32,7 +35,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      
 
       {/* Unknown URL */}
       <Route
@@ -45,13 +47,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
