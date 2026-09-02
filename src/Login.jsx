@@ -33,27 +33,38 @@ function Login() {
   setLoading(true);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/login/", {
+    const response = await fetch("http://localhost:8000/login/", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       credentials: "include",
-
       body: JSON.stringify({
         email: formData.email,
         password: formData.password,
       }),
     });
 
-    const data = await response.json();
+    // Pehle response ko text me read karenge
+    const responseText = await response.text();
+
+    console.log("STATUS:", response.status);
+    console.log("BACKEND RESPONSE:", responseText);
+
+    let data = {};
+
+    try {
+      data = responseText ? JSON.parse(responseText) : {};
+    } catch {
+      console.log("Backend JSON return nahi kar raha.");
+    }
 
     if (response.ok) {
-      // Login successful
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userRole", data.role || "admin");
+      localStorage.setItem(
+        "userRole",
+        data.role || "admin"
+      );
       localStorage.setItem(
         "userEmail",
         data.email || formData.email
@@ -65,23 +76,23 @@ function Login() {
         localStorage.removeItem("rememberMe");
       }
 
-      setLoading(false);
-
-      // Dashboard only after successful login
       navigate("/admin");
     } else {
-      setLoading(false);
-
-      alert(data.message || "Invalid email or password");
+      alert(
+        data.message ||
+        data.detail ||
+        `Login failed. Status: ${response.status}`
+      );
     }
-  } catch (error) {
-    console.error("Login Error:", error);
 
-    setLoading(false);
+  } catch (error) {
+    console.error("LOGIN FETCH ERROR:", error);
 
     alert(
-      "Unable to connect to server. Please make sure Django backend is running."
+      "Login API request failed. Check browser console for exact error."
     );
+  } finally {
+    setLoading(false);
   }
 };
 
