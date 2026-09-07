@@ -112,7 +112,7 @@ const handleLogout = () => {
 
 
           {/* Uploads */}
-          <button
+          <button  onClick={() => navigate("/admin/uploads")}
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -203,7 +203,7 @@ const handleLogout = () => {
 
 
           {/* Follow Ups */}
-          <button
+          <button onClick={() => navigate("/admin/followups")}
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1

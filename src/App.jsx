@@ -8,6 +8,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Leads from "./pages/Leads";
+import Uploads from "./pages/Uploads";
+import FollowUps from "./pages/FollowUps";
+
 
 function App() {
   return (
@@ -53,6 +56,25 @@ function App() {
 <Route path="/admin/leads" element={
     <ProtectedRoute>
       <Leads />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/uploads"
+  element={
+    <ProtectedRoute>
+      <Uploads />
+    </ProtectedRoute>
+  }
+/>
+
+
+<Route
+  path="/admin/followups"
+  element={
+    <ProtectedRoute>
+      <FollowUps />
     </ProtectedRoute>
   }
 />
