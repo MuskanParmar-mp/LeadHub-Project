@@ -1,7 +1,4 @@
 
-
-
-
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -9,6 +6,8 @@ import Login from "./Login";
 import AdminDashboard from "./pages/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+
+import Leads from "./pages/Leads";
 
 function App() {
   return (
@@ -41,6 +40,22 @@ function App() {
         path="*"
         element={<Navigate to="/login" replace />}
       />
+
+      <Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route path="/admin/leads" element={
+    <ProtectedRoute>
+      <Leads />
+    </ProtectedRoute>
+  }
+/>
 
     </Routes>
   );
