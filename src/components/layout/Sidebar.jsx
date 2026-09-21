@@ -1,15 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import React from "react";
 import logo from "../../assets/cyblogo.png";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
 
 function Sidebar({ isOpen, setIsOpen }) {
 
-
-const navigate = useNavigate();  
-
-
-
-const handleLogout = () => {
+    const handleLogout = () => {
   localStorage.removeItem("adminLoggedIn");
   window.location.href = "/login";
 };
@@ -112,7 +108,7 @@ const handleLogout = () => {
 
 
           {/* Uploads */}
-          <button  onClick={() => navigate("/admin/uploads")}
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -131,7 +127,7 @@ const handleLogout = () => {
 
           {/* Leads */}
           <button
-          onClick={() => navigate("/admin/leads")}
+          
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -149,7 +145,8 @@ const handleLogout = () => {
 
 
           {/* Reports */}
-          <button
+          <Link
+            to="/reports"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -163,11 +160,12 @@ const handleLogout = () => {
             <span className="text-sm">
               Reports
             </span>
-          </button>
+          </Link>
 
 
           {/* Calls */}
-          <button
+          <Link
+            to="/calls"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -181,29 +179,27 @@ const handleLogout = () => {
             <span className="text-sm">
               Calls
             </span>
-          </button>
+          </Link>
 
 
-          {/* Employees */}
-          <button
+           {/* Employees */}
+              <Link
+            to="/employees"
             className="
-              w-full flex items-center gap-3
-              px-4 py-3 mb-1
-              rounded-xl
-              text-gray-300
-              hover:bg-white/10 hover:text-white
-              transition-all duration-200
-            "
-          >
-            <span className="text-lg">♙</span>
-            <span className="text-sm">
-              Employees
-            </span>
-          </button>
-
+            w-full flex items-center gap-3
+            px-4 py-3 mb-1
+            rounded-xl
+            text-gray-300
+            hover:bg-white/10 hover:text-white
+            transition-all duration-200
+          "
+        >
+          <span className="text-lg">♙</span>
+          <span className="text-sm">Employees</span>
+        </Link>
 
           {/* Follow Ups */}
-          <button onClick={() => navigate("/admin/followups")}
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -221,7 +217,10 @@ const handleLogout = () => {
 
 
           {/* Filter */}
-          <button
+          
+          
+          <Link
+            to="/filter"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -235,7 +234,7 @@ const handleLogout = () => {
             <span className="text-sm">
               Filter
             </span>
-          </button>
+          </Link>
 
         </nav>
 
@@ -244,7 +243,8 @@ const handleLogout = () => {
         <div className="px-3 py-4 border-t border-white/10">
 
           {/* Settings */}
-          <button
+          <Link
+            to="/settings"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -258,7 +258,8 @@ const handleLogout = () => {
             <span className="text-sm">
               Settings
             </span>
-          </button>
+            </Link>
+          
 
 
           {/* Logout */}
