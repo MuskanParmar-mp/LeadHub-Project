@@ -145,7 +145,7 @@ const Filter = ({
               Full Stack Development
             </option>
 
-            <option value="Data Science & AI">
+            <option value="Data Science & AI"> 
               Data Science & AI
             </option>
 
