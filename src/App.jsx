@@ -10,6 +10,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Leads from "./pages/Leads";
 import Uploads from "./pages/Uploads";
 import FollowUps from "./pages/FollowUps";
+import Employees from "./pages/Employees";
+import Filter from "./pages/Filter";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+import Calls from "./pages/Calls";
+
 
 
 function App() {
@@ -27,6 +33,27 @@ function App() {
         path="/login"
         element={<Login />}
       />
+      <Route
+        path="/employees"
+        element={<Employees />}
+      />
+      <Route
+        path="/filter"
+        element={<Filter />}
+      />
+      <Route
+        path="/reports"
+        element={<Reports />}
+      />
+      <Route
+        path="/settings"
+        element={<Settings />}
+      />
+      <Route
+        path="/calls"
+        element={<Calls />}
+      />
+
 
       {/* Protected Admin Dashboard */}
       <Route
