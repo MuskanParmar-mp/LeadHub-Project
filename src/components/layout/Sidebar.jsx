@@ -1,11 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import logo from "../../assets/cyblogo.png";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-
 
 function Sidebar({ isOpen, setIsOpen }) {
 
-    const handleLogout = () => {
+
+const navigate = useNavigate();  
+
+
+
+const handleLogout = () => {
   localStorage.removeItem("adminLoggedIn");
   window.location.href = "/login";
 };
@@ -108,7 +112,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
 
           {/* Uploads */}
-          <button
+          <button  onClick={() => navigate("/admin/uploads")}
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -127,6 +131,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
           {/* Leads */}
           <button
+          onClick={() => navigate("/admin/leads")}
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -144,8 +149,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
 
           {/* Reports */}
-          <Link
-            to="/reports"
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -159,12 +163,11 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Reports
             </span>
-          </Link>
+          </button>
 
 
           {/* Calls */}
-          <Link
-            to="/calls"
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -178,27 +181,29 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Calls
             </span>
-          </Link>
+          </button>
 
 
-           {/* Employees */}
-              <Link
-            to="/employees"
+          {/* Employees */}
+          <button
             className="
-            w-full flex items-center gap-3
-            px-4 py-3 mb-1
-            rounded-xl
-            text-gray-300
-            hover:bg-white/10 hover:text-white
-            transition-all duration-200
-          "
-        >
-          <span className="text-lg">♙</span>
-          <span className="text-sm">Employees</span>
-        </Link>
+              w-full flex items-center gap-3
+              px-4 py-3 mb-1
+              rounded-xl
+              text-gray-300
+              hover:bg-white/10 hover:text-white
+              transition-all duration-200
+            "
+          >
+            <span className="text-lg">♙</span>
+            <span className="text-sm">
+              Employees
+            </span>
+          </button>
+
 
           {/* Follow Ups */}
-          <button
+          <button onClick={() => navigate("/admin/followups")}
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -216,10 +221,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
 
           {/* Filter */}
-          
-          
-          <Link
-            to="/filter"
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -233,7 +235,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Filter
             </span>
-          </Link>
+          </button>
 
         </nav>
 
@@ -242,8 +244,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         <div className="px-3 py-4 border-t border-white/10">
 
           {/* Settings */}
-          <Link
-            to="/settings"
+          <button
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -257,8 +258,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Settings
             </span>
-            </Link>
-          
+          </button>
 
 
           {/* Logout */}
