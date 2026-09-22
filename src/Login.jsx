@@ -58,26 +58,33 @@ function Login() {
     } catch {
       console.log("Backend JSON return nahi kar raha.");
     }
-
+// --------------------------
     if (response.ok) {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem(
-        "userRole",
-        data.role || "admin"
-      );
-      localStorage.setItem(
-        "userEmail",
-        data.email || formData.email
-      );
+  // JWT tokens save karo
+  localStorage.setItem("accessToken", data.access);
+  localStorage.setItem("refreshToken", data.refresh);
 
-      if (rememberMe) {
-        localStorage.setItem("rememberMe", "true");
-      } else {
-        localStorage.removeItem("rememberMe");
-      }
+  // Login status
+  localStorage.setItem("isLoggedIn", "true");
 
-      navigate("/admin");
-    } else {
+  localStorage.setItem(
+    "userRole",
+    data.role || "admin"
+  );
+
+  localStorage.setItem(
+    "userEmail",
+    data.email || formData.email
+  );
+
+  if (rememberMe) {
+    localStorage.setItem("rememberMe", "true");
+  } else {
+    localStorage.removeItem("rememberMe");
+  }
+
+  navigate("/admin");
+}else {
       alert(
         data.message ||
         data.detail ||
