@@ -15,8 +15,14 @@ import Filter from "./pages/Filter";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Calls from "./pages/Calls";
-
-
+import Emp_my_lead from "./pages/Emp_my_lead";
+import Emp_follow_up from "./pages/Emp_follow_up";
+import Emp_calls from "./pages/Emp_calls";
+import Emp_reports from "./pages/Emp_reports";
+import Emp_task from "./pages/Emp_task";
+import Emp_notification from "./pages/Emp_notification";
+import Emp_profile from "./pages/Emp_profile";
+import Emp_dashboard from "./pages/Emp_dashboard";
 
 function App() {
   return (
@@ -96,6 +102,46 @@ function App() {
   }
 />
 
+<Route
+        path="/pages/Emp_my_lead"
+        element={<Emp_my_lead />}
+      />
+
+{/* emp follow up */}
+
+<Route
+        path="/pages/emp_follow_up"
+        element={<Emp_follow_up />}
+      />
+
+  <Route
+        path="/pages/emp_calls"
+        element={<Emp_calls />}
+      /> 
+
+<Route
+        path="/pages/emp_reports"
+        element={<Emp_reports />}
+      />  
+
+<Route
+        path="/pages/emp_task"
+        element={<Emp_task/>}
+      />     
+<Route
+        path="/pages/emp_notification"
+        element={<Emp_notification/>}
+      /> 
+
+<Route
+        path="/pages/emp_profile"
+        element={<Emp_profile/>}
+      /> 
+
+<Route
+        path="/pages/emp_dashboard"
+        element={<Emp_dashboard/>}
+      /> 
 
 <Route
   path="/admin/followups"
@@ -106,7 +152,12 @@ function App() {
   }
 />
 
+
     </Routes>
+
+    // sales excutive side start from here
+    
+
   );
 }
 
