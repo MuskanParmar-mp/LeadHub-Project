@@ -1,14 +1,19 @@
 import React from "react";
 import logo from "../../assets/cyblogo.png";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 function Sidebar({ isOpen, setIsOpen }) {
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("rememberMe");
+    localStorage.removeItem("adminLoggedIn");
 
-    const handleLogout = () => {
-  localStorage.removeItem("adminLoggedIn");
-  window.location.href = "/login";
-};
+    window.location.href = "/login";
+  };
 
   return (
     <>
@@ -28,33 +33,21 @@ function Sidebar({ isOpen, setIsOpen }) {
           bg-[#0B1F33] text-white
           flex flex-col
           shadow-xl
-
           transform transition-transform duration-300 ease-in-out
-
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
-
           lg:translate-x-0
         `}
       >
-
         {/* ================= LOGO ================= */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
-
           <div className="flex items-center gap-3">
-
-            {/* Logo Icon */}
-            {/* <div className="w-10 h-10 rounded-xl bg-[#16A3D3] flex items-center justify-center font-bold text-xl shadow-lg">
-              C
-            </div> */}
             <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden shrink-0">
-            
-                          <img
-                            src={logo}
-                            alt="Cybrom Technology"
-                            className="w-full h-full object-contain p-1.5"
-                          />
-            
-                        </div>
+              <img
+                src={logo}
+                alt="Cybrom Technology"
+                className="w-full h-full object-contain p-1.5"
+              />
+            </div>
 
             <div>
               <h2 className="text-lg font-bold tracking-wide">
@@ -65,9 +58,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                 CRM
               </p>
             </div>
-
           </div>
-
 
           {/* Mobile Close Button */}
           <button
@@ -76,20 +67,17 @@ function Sidebar({ isOpen, setIsOpen }) {
           >
             ×
           </button>
-
         </div>
-
 
         {/* ================= MENU ================= */}
         <nav className="flex-1 px-3 py-6 overflow-y-auto">
-
           <p className="px-3 mb-3 text-[11px] font-semibold tracking-[2px] text-[#72B8D8]">
             MAIN MENU
           </p>
 
-
           {/* Dashboard */}
-          <button
+          <Link
+            to="/admin"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -104,11 +92,11 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm font-medium">
               Dashboard
             </span>
-          </button>
-
+          </Link>
 
           {/* Uploads */}
-          <button
+          <Link
+            to="/admin/uploads"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -122,12 +110,11 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Uploads
             </span>
-          </button>
-
+          </Link>
 
           {/* Leads */}
-          <button
-            to="/reports"
+          <Link
+            to="/admin/Leads"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -137,12 +124,11 @@ function Sidebar({ isOpen, setIsOpen }) {
               transition-all duration-200
             "
           >
-            <span className="text-lg">♙</span>
+            <span className="text-lg">▥</span>
             <span className="text-sm">
               Leads
             </span>
-          </button>
-
+          </Link>
 
           {/* Reports */}
           <Link
@@ -162,7 +148,6 @@ function Sidebar({ isOpen, setIsOpen }) {
             </span>
           </Link>
 
-
           {/* Calls */}
           <Link
             to="/calls"
@@ -181,25 +166,27 @@ function Sidebar({ isOpen, setIsOpen }) {
             </span>
           </Link>
 
-
-           {/* Employees */}
-              <Link
+          {/* Employees */}
+          <Link
             to="/employees"
             className="
-            w-full flex items-center gap-3
-            px-4 py-3 mb-1
-            rounded-xl
-            text-gray-300
-            hover:bg-white/10 hover:text-white
-            transition-all duration-200
-          "
-        >
-          <span className="text-lg">♙</span>
-          <span className="text-sm">Employees</span>
-        </Link>
+              w-full flex items-center gap-3
+              px-4 py-3 mb-1
+              rounded-xl
+              text-gray-300
+              hover:bg-white/10 hover:text-white
+              transition-all duration-200
+            "
+          >
+            <span className="text-lg">♙</span>
+            <span className="text-sm">
+              Employees
+            </span>
+          </Link>
 
           {/* Follow Ups */}
-          <button
+          <Link
+            to="/admin/followups"
             className="
               w-full flex items-center gap-3
               px-4 py-3 mb-1
@@ -213,12 +200,9 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Follow Ups
             </span>
-          </button>
-
+          </Link>
 
           {/* Filter */}
-          
-          
           <Link
             to="/filter"
             className="
@@ -235,9 +219,7 @@ function Sidebar({ isOpen, setIsOpen }) {
               Filter
             </span>
           </Link>
-
         </nav>
-
 
         {/* ================= BOTTOM MENU ================= */}
         <div className="px-3 py-4 border-t border-white/10">
@@ -258,32 +240,27 @@ function Sidebar({ isOpen, setIsOpen }) {
             <span className="text-sm">
               Settings
             </span>
-            </Link>
-          
-
+          </Link>
 
           {/* Logout */}
           <button
-  onClick={handleLogout}
-  className="
-    w-full flex items-center gap-3
-    px-4 py-3
-    rounded-xl
-    text-[#F28A3B]
-    hover:bg-[#F28A3B]/10
-    transition-all duration-200
-  "
->
-  <span className="text-lg">↪</span>
+            onClick={handleLogout}
+            className="
+              w-full flex items-center gap-3
+              px-4 py-3
+              rounded-xl
+              text-[#F28A3B]
+              hover:bg-[#F28A3B]/10
+              transition-all duration-200
+            "
+          >
+            <span className="text-lg">↪</span>
 
-  <span className="text-sm font-medium">
-    Logout
-  </span>
-</button>
-
+            <span className="text-sm font-medium">
+              Logout
+            </span>
+          </button>
         </div>
-        
-
       </aside>
     </>
   );

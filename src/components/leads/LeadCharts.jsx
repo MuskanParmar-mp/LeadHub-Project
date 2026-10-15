@@ -9,6 +9,7 @@ import {
   ArcElement,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 import { Line, Doughnut, Bar } from "react-chartjs-2";
@@ -23,7 +24,8 @@ ChartJS.register(
   BarElement,
   ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  Filler,
 );
 
 
