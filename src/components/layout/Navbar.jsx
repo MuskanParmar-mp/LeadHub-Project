@@ -277,7 +277,7 @@ function Navbar({ setIsOpen }) {
                 "Account Settings",
                 "Change Password",
               ].map((label) => (
-                <button
+                <button 
                   type="button"
                   key={label}
                   onClick={() => handleProfileOption(label)}
