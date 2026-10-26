@@ -23,6 +23,7 @@ import Emp_task from "./pages/Emp_task";
 import Emp_notification from "./pages/Emp_notification";
 import Emp_profile from "./pages/Emp_profile";
 import Emp_dashboard from "./pages/Emp_dashboard";
+import AdminHeader from "./pages/AdminHeader";
 
 function App() {
   return (
@@ -59,7 +60,10 @@ function App() {
         path="/calls"
         element={<Calls />}
       />
-
+<Route
+        path="/AdminHeader"
+        element={<AdminHeader />}
+      />
 
       {/* Protected Admin Dashboard */}
       <Route
