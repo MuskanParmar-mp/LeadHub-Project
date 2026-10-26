@@ -1,8 +1,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar({ setIsOpen }) {
+  const navigate = useNavigate();
+
   const [activeMenu, setActiveMenu] = useState(null);
+
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -70,15 +74,30 @@ function Navbar({ setIsOpen }) {
   function markAsRead(id) {
     setNotifications((current) =>
       current.map((item) =>
-        item.id === id ? { ...item, unread: false } : item
+        item.id === id
+          ? { ...item, unread: false }
+          : item
       )
     );
   }
 
   function markAllAsRead() {
     setNotifications((current) =>
-      current.map((item) => ({ ...item, unread: false }))
+      current.map((item) => ({
+        ...item,
+        unread: false,
+      }))
     );
+  }
+
+  function handleProfileOption(label) {
+    setActiveMenu(null);
+
+    if (label === "My Profile") {
+      navigate("/profile");
+    } else {
+      alert(label + " page is not connected yet.");
+    }
   }
 
   function handleLogout() {
@@ -88,8 +107,9 @@ function Navbar({ setIsOpen }) {
 
     if (confirmed) {
       setActiveMenu(null);
-      // Connect your actual logout function here.
-      alert("Connect your authentication logout function here.");
+      alert(
+        "Connect your authentication logout function here."
+      );
     }
   }
 
@@ -101,6 +121,7 @@ function Navbar({ setIsOpen }) {
       {/* Left Section */}
       <div className="flex items-center gap-4">
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
           className="lg:hidden w-10 h-10 rounded-lg bg-[#0B1F33] text-white flex items-center justify-center text-xl hover:bg-[#16A3D3] transition"
           aria-label="Open menu"
@@ -112,6 +133,7 @@ function Navbar({ setIsOpen }) {
           <h1 className="text-lg sm:text-xl font-bold text-[#0B1F33]">
             Dashboard
           </h1>
+
           <p className="hidden sm:block text-xs sm:text-sm text-gray-500">
             Welcome back, Admin
           </p>
@@ -120,8 +142,7 @@ function Navbar({ setIsOpen }) {
 
       {/* Right Section */}
       <div className="flex items-center gap-3 sm:gap-5">
-
-        {/* Notification */}
+        {/* Notifications */}
         <div className="relative">
           <button
             type="button"
@@ -146,6 +167,7 @@ function Navbar({ setIsOpen }) {
                   <h2 className="font-bold text-[#0B1F33]">
                     Notifications
                   </h2>
+
                   <p className="text-xs text-gray-500 mt-1">
                     {unreadCount} unread
                   </p>
@@ -171,14 +193,19 @@ function Navbar({ setIsOpen }) {
                     }`}
                   >
                     <div className="flex items-start gap-2">
-                      <span className="text-blue-600">●</span>
+                      <span className="text-blue-600">
+                        {item.unread ? "●" : "○"}
+                      </span>
+
                       <div>
                         <p className="text-sm font-semibold text-[#0B1F33]">
                           {item.title}
                         </p>
+
                         <p className="text-xs text-gray-600 mt-1">
                           {item.message}
                         </p>
+
                         <p className="text-[11px] text-gray-400 mt-2">
                           {item.time}
                         </p>
@@ -192,7 +219,9 @@ function Navbar({ setIsOpen }) {
                 type="button"
                 onClick={() => {
                   setActiveMenu(null);
-                  alert("You can connect your notifications page here.");
+                  alert(
+                    "Notifications page is not connected yet."
+                  );
                 }}
                 className="w-full p-3 text-sm font-semibold text-blue-600 hover:bg-gray-50"
               >
@@ -202,7 +231,7 @@ function Navbar({ setIsOpen }) {
           )}
         </div>
 
-        <div className="hidden sm:block h-8 w-px bg-gray-200"></div>
+        <div className="hidden sm:block h-8 w-px bg-gray-200" />
 
         {/* Admin Profile */}
         <div className="relative">
@@ -220,6 +249,7 @@ function Navbar({ setIsOpen }) {
               <p className="text-sm font-semibold text-[#0B1F33]">
                 Admin
               </p>
+
               <p className="text-xs text-gray-500">
                 Administrator
               </p>
@@ -236,6 +266,7 @@ function Navbar({ setIsOpen }) {
                 <p className="font-semibold text-[#0B1F33]">
                   Admin
                 </p>
+
                 <p className="text-xs text-gray-500">
                   Administrator
                 </p>
@@ -249,17 +280,14 @@ function Navbar({ setIsOpen }) {
                 <button
                   type="button"
                   key={label}
-                  onClick={() => {
-                    setActiveMenu(null);
-                    alert(label + " page will be connected here.");
-                  }}
+                  onClick={() => handleProfileOption(label)}
                   className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
                 >
                   {label}
                 </button>
               ))}
 
-              <div className="border-t border-gray-100 my-1"></div>
+              <div className="border-t border-gray-100 my-1" />
 
               <button
                 type="button"

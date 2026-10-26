@@ -24,6 +24,7 @@ import Emp_notification from "./pages/Emp_notification";
 import Emp_profile from "./pages/Emp_profile";
 import Emp_dashboard from "./pages/Emp_dashboard";
 import AdminHeader from "./pages/AdminHeader";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -146,7 +147,7 @@ function App() {
         path="/pages/emp_dashboard"
         element={<Emp_dashboard/>}
       /> 
-
+<Route path="/profile" element={<Profile />} />
 <Route
   path="/admin/followups"
   element={
