@@ -278,7 +278,7 @@ function Navbar({ setIsOpen }) {
                 "Change Password",
               ].map((label) => (
                 <button 
-                  type="button"
+                  type="button" 
                   key={label}
                   onClick={() => handleProfileOption(label)}
                   className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
