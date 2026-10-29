@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "./assets/cyblogo.png";
-
+import { Link } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
 
@@ -11,6 +11,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
+    employee_id: "",
     email: "",
     password: "",
   });
@@ -119,6 +120,7 @@ function Login() {
     });
   };
 
+<<<<<<< HEAD
   // FRONTEND-ONLY EMPLOYEE DEMO
   const handleDemoEmployee = () => {
     localStorage.removeItem("accessToken");
@@ -134,6 +136,122 @@ function Login() {
     navigate("/pages/emp_dashboard");
   };
 
+=======
+  // LOGIN
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      !formData.employee_id.trim() ||
+      !formData.email.trim() ||
+      !formData.password
+    ) {
+      alert("Please enter Employee ID, email and password");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            employee_id: formData.employee_id.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+          }),
+        }
+      );
+
+      const responseText = await response.text();
+
+      console.log("STATUS:", response.status);
+      console.log("BACKEND RESPONSE:", responseText);
+
+      let data = {};
+
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        alert("Backend returned an invalid response.");
+        return;
+      }
+
+      if (!response.ok) {
+        alert(
+          data.message ||
+          data.detail ||
+          `Login failed. Status: ${response.status}`
+        );
+        return;
+      }
+
+      // Backend se actual role aur tokens lo
+      const role = String(data.role || "").trim().toLowerCase();
+
+      if (!data.access || !data.refresh) {
+        alert("Login response is missing JWT tokens.");
+        return;
+      }
+
+      if (!["admin", "manager", "employee"].includes(role)) {
+        alert("Your account has an invalid role. Please contact the administrator.");
+        return;
+      }
+
+      // Login information save karo
+      localStorage.setItem("accessToken", data.access);
+      localStorage.setItem("refreshToken", data.refresh);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("userEmail", data.email || formData.email.trim());
+
+      if (data.employee_id) {
+        localStorage.setItem("employeeId", data.employee_id);
+      }
+      if (data.full_name) {
+        localStorage.setItem("userName", data.full_name);
+      }
+
+      if (rememberMe) {
+        localStorage.setItem("rememberMe", "true");
+      } else {
+        localStorage.removeItem("rememberMe");
+      }
+
+      // Redirect only according to the role returned by the backend
+      if (role === "admin") {
+        navigate("/admin");
+      } else if (role === "manager") {
+        navigate("/pages/Manager_dashboard");
+      } else {
+        navigate("/pages/Emp_dashboard");
+      }
+    } catch (error) {
+      console.error("LOGIN FETCH ERROR:", error);
+      alert(
+        "Login API request failed. Check backend server and browser console."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // DEMO LOGIN: credentials form mein fill karega
+  const handleDemoLogin = () => {
+    setFormData((current) => ({
+      ...current,
+      email: "admin@cybromleadhub.com",
+      password: "Admin@123",
+    }));
+  };
+>>>>>>> 9d56081 (multitancy done)
   return (
     <div className="min-h-screen w-full bg-[#F5F8FC]">
       <div className="min-h-screen w-full flex flex-col lg:flex-row">
@@ -257,8 +375,44 @@ function Login() {
               </p>
             </div>
 
+<<<<<<< HEAD
             {/* FORM */}
             <form onSubmit={handleSubmit} className="space-y-5">
+=======
+
+            {/* LOGIN FORM */}
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 sm:space-y-5"
+            >
+
+{/* EMAIL id */}
+
+            <div>
+  <label
+    htmlFor="employee_id"
+    className="block text-sm font-semibold text-[#172B49] mb-1.5"
+  >
+    Employee ID
+  </label>
+
+  <input
+    id="employee_id"
+    type="text"
+    name="employee_id"
+    placeholder="Enter Employee ID"
+    value={formData.employee_id}
+    onChange={handleChange}
+    autoComplete="username"
+    required
+    className="w-full h-11 sm:h-12 px-4 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 outline-none focus:border-[#0077B5] focus:ring-2 focus:ring-[#0077B5]/20"
+  />
+</div> 
+
+              {/* EMAIL */}
+
+>>>>>>> 9d56081 (multitancy done)
               <div>
                 <label
                   htmlFor="email"
@@ -338,8 +492,33 @@ function Login() {
               </button>
             </form>
 
+<<<<<<< HEAD
             {/* DEMO SEPARATOR */}
             <div className="flex items-center gap-3 my-6">
+=======
+
+            {/* OR */}
+
+
+<div className="mt-5 text-center">
+  <p className="mb-3 text-sm text-slate-500">
+    Are you an organization administrator?
+  </p>
+
+  <Link
+    to="/pages/organization"
+    className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#0077B5]/40 bg-white px-4 py-3 text-sm font-semibold text-[#0077B5] transition-all hover:bg-[#0077B5] hover:text-white"
+  >
+    <span>🏢</span>
+   Login as Organization
+  </Link>
+</div>
+
+
+
+            <div className="flex items-center gap-3 my-5 sm:my-6">
+
+>>>>>>> 9d56081 (multitancy done)
               <div className="flex-1 h-px bg-slate-200" />
               <span className="text-xs font-semibold text-slate-400">
                 DEMO ACCOUNTS
@@ -391,6 +570,12 @@ function Login() {
                 Frontend demo only: these credentials are displayed for demo purposes and are not verified by the backend.
               </p>
             </div>
+
+
+{/* // Place this below your existing Login button */}
+
+
+
 
             {/* REGISTER */}
             <p className="text-center text-sm text-slate-500 mt-6">

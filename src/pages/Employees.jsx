@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Layout from "../components/layout/Layout";
+
+const API_URL = "http://127.0.0.1:8000/api/employees/";
 
 const Employee = () => {
   const [showForm, setShowForm] = useState(false);
@@ -12,6 +16,8 @@ const Employee = () => {
   const [statusFilter, setStatusFilter] = useState("All");
 
   const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const emptyForm = {
     email: "",
@@ -28,54 +34,158 @@ const Employee = () => {
 
   const [formData, setFormData] = useState(emptyForm);
 
-  // HANDLE INPUT
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  // =====================================
+  // CONVERT DJANGO DATA TO REACT FORMAT
+  // =====================================
+
+  const normalizeEmployee = (employee) => ({
+    ...employee,
+    employeeId: employee.employee_id,
+    fullName: employee.full_name,
+    phoneNumber: employee.phone,
+    joinDate: employee.joining_date,
+    status: employee.is_active ? "Active" : "Inactive",
+    email: employee.email || employee.login_email || "",
+    creator: employee.creator || "",
+    update: employee.update || "",
+    calls: employee.calls || 0,
+    leads: employee.leads || 0,
+    followups: employee.followups || 0,
+    conversions: employee.conversions || 0,
+  });
+
+  // =====================================
+  // FETCH EMPLOYEES FROM DATABASE
+  // =====================================
+
+  const fetchEmployees = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get(API_URL);
+
+      // Your Django list() returns:
+      // { total_employees, active_employees,
+      //   inactive_employees, employees: [] }
+
+      const data = response.data.employees || [];
+
+      setEmployees(data.map(normalizeEmployee));
+    } catch (error) {
+      console.error(
+        "Fetch employees error:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  // =====================================
+  // HANDLE INPUT
+  // =====================================
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // =====================================
   // ADD / UPDATE EMPLOYEE
-  const handleSubmit = (e) => {
+  // =====================================
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editingIndex !== null) {
-      setEmployees((previousEmployees) =>
-        previousEmployees.map((employee, index) =>
-          index === editingIndex
-            ? {
-                ...employee,
-                ...formData,
-                password:
-                  formData.password || employee.password,
-              }
-            : employee
-        )
-      );
+    if (submitting) return;
 
-      setEditingIndex(null);
-    } else {
-      const newEmployee = {
-        ...formData,
-        status: "Active",
-        calls: 0,
-        leads: 0,
-        followups: 0,
-        conversions: 0,
+    setSubmitting(true);
+
+    try {
+      const payload = {
+        email: formData.email.trim(),
+        employee_id: formData.employeeId.trim(),
+        full_name: formData.fullName.trim(),
+        phone: formData.phoneNumber.trim(),
+        department: formData.department.trim(),
+        designation: formData.designation.trim(),
+        joining_date: formData.joinDate,
+        role: "employee",
+        is_active: true,
       };
 
-      setEmployees((previousEmployees) => [
-        ...previousEmployees,
-        newEmployee,
-      ]);
-    }
+      if (editingIndex === null) {
+        // Password is required only when creating
+        payload.password = formData.password;
 
-    setFormData(emptyForm);
-    setShowForm(false);
+        await axios.post(API_URL, payload);
+
+        alert("Employee created successfully!");
+      } else {
+        // Update existing employee
+        const employee = employees[editingIndex];
+
+        if (!employee?.id) {
+          throw new Error("Employee database ID not found.");
+        }
+
+        // Do not change password when editing unless
+        // you have a dedicated secure password API.
+        await axios.patch(
+          `${API_URL}${employee.id}/`,
+          payload
+        );
+
+        alert("Employee updated successfully!");
+      }
+
+      await fetchEmployees();
+
+      setFormData(emptyForm);
+      setEditingIndex(null);
+      setShowForm(false);
+    } catch (error) {
+      console.error(
+        "Save employee error:",
+        error.response?.data || error.message
+      );
+
+      const errorData = error.response?.data;
+
+      if (errorData && typeof errorData === "object") {
+        const messages = Object.entries(errorData)
+          .map(([field, errors]) => {
+            const text = Array.isArray(errors)
+              ? errors.join(", ")
+              : typeof errors === "string"
+                ? errors
+                : JSON.stringify(errors);
+
+            return `${field}: ${text}`;
+          })
+          .join("\n");
+
+        alert(messages || "Unable to save employee.");
+      } else {
+        alert(error.message || "Unable to save employee.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
+  // =====================================
   // EDIT EMPLOYEE
+  // =====================================
+
   const handleEdit = (index) => {
     const employee = employees[index];
 
@@ -96,43 +206,81 @@ const Employee = () => {
     setShowForm(true);
   };
 
+  // =====================================
   // DELETE EMPLOYEE
-  const handleDelete = (index) => {
+  // =====================================
+
+  const handleDelete = async (index) => {
+    const employee = employees[index];
+
+    if (!employee?.id) {
+      alert("Employee database ID not found.");
+      return;
+    }
+
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this employee?"
     );
 
-    if (confirmDelete) {
-      setEmployees((previousEmployees) =>
-        previousEmployees.filter((_, i) => i !== index)
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`${API_URL}${employee.id}/`);
+
+      await fetchEmployees();
+
+      alert("Employee deleted successfully!");
+    } catch (error) {
+      console.error(
+        "Delete error:",
+        error.response?.data || error.message
       );
+
+      alert("Unable to delete employee.");
     }
   };
 
+  // =====================================
   // ACTIVE / INACTIVE
-  const toggleStatus = (index) => {
-    setEmployees((previousEmployees) =>
-      previousEmployees.map((employee, i) =>
-        i === index
-          ? {
-              ...employee,
-              status:
-                employee.status === "Active"
-                  ? "Inactive"
-                  : "Active",
-            }
-          : employee
-      )
-    );
+  // =====================================
+
+  const toggleStatus = async (index) => {
+    const employee = employees[index];
+
+    if (!employee?.id) {
+      alert("Employee database ID not found.");
+      return;
+    }
+
+    try {
+      await axios.patch(`${API_URL}${employee.id}/`, {
+        is_active: employee.status !== "Active",
+      });
+
+      await fetchEmployees();
+    } catch (error) {
+      console.error(
+        "Status update error:",
+        error.response?.data || error.message
+      );
+
+      alert("Unable to update employee status.");
+    }
   };
 
+  // =====================================
   // PERFORMANCE
+  // =====================================
+
   const handlePerformance = (employee) => {
     setSelectedEmployee(employee);
     setShowPerformance(true);
   };
 
+  // =====================================
   // FILTER EMPLOYEES
+  // =====================================
+
   const filteredEmployees = employees.filter((employee) => {
     const searchText = search.toLowerCase();
 
@@ -153,7 +301,10 @@ const Employee = () => {
     return matchesSearch && matchesDepartment && matchesStatus;
   });
 
+  // =====================================
   // DEPARTMENTS
+  // =====================================
+
   const departments = [
     ...new Set(
       employees
@@ -162,7 +313,10 @@ const Employee = () => {
     ),
   ];
 
+  // =====================================
   // COUNTS
+  // =====================================
+
   const activeEmployees = employees.filter(
     (employee) => employee.status === "Active"
   ).length;
