@@ -185,7 +185,7 @@ function EmpSidebar({ activePage, setActivePage, open, setOpen }) {
                 className={`flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-left text-sm transition ${
                   active
                     ? "bg-[#16A6D1] font-semibold text-white shadow-lg"
-                    : "text-slate-300 hover:bg-white/10 hover:text-white"
+                    : "text-slate-300 hover:bg-white/10 hover:text-white" 
                 }`}
               >
                 <Icon size={19} />
