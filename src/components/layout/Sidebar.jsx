@@ -10,6 +10,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     localStorage.removeItem("userRole");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("rememberMe");
+    localStorage.removeItem("adminLoggedIn");
 
     window.location.href = "/login";
   };
@@ -40,7 +41,6 @@ function Sidebar({ isOpen, setIsOpen }) {
         {/* ================= LOGO ================= */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
           <div className="flex items-center gap-3">
-            {/* Logo */}
             <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden shrink-0">
               <img
                 src={logo}
@@ -49,7 +49,6 @@ function Sidebar({ isOpen, setIsOpen }) {
               />
             </div>
 
-            {/* Brand */}
             <div>
               <h2 className="text-lg font-bold tracking-wide">
                 LeadHub
@@ -224,6 +223,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
         {/* ================= BOTTOM MENU ================= */}
         <div className="px-3 py-4 border-t border-white/10">
+
           {/* Settings */}
           <Link
             to="/settings"
