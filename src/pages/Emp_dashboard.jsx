@@ -25,6 +25,7 @@ import {
   ThumbsUp,
   ArrowUpRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 const menuItems = [
@@ -33,8 +34,8 @@ const menuItems = [
   { name: "Calls", icon: PhoneCall },
   { name: "Follow-ups", icon: CalendarCheck },
   { name: "My Tasks", icon: ClipboardList },
-  { name: "Notifications", icon: Bell },
-  { name: "My Profile", icon: UserRound },
+  // { name: "Notifications", icon: Bell },
+  // { name: "My Profile", icon: UserRound },
   { name: "Reports", icon: FileBarChart },
   { name: "Settings", icon: Settings },
   
@@ -322,7 +323,8 @@ function EmployeeSectionPage({ page, setActivePage }) {
           <p className="mt-1 text-sm text-slate-500">Manage your workspace preferences.</p>
           <div className="mt-6 divide-y divide-slate-100">
             <div className="flex items-center justify-between gap-4 py-4"><div><p className="font-medium">Notifications</p><p className="text-sm text-slate-500">Receive reminders for follow-ups</p></div><span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Enabled</span></div>
-            <div className="flex items-center justify-between gap-4 py-4"><div><p className="font-medium">Account security</p><p className="text-sm text-slate-500">Your account is managed by your CRM administrator.</p></div><span className="text-sm text-slate-500">Managed</span></div>
+            <div className="flex items-center justify-between gap-4 py-4">
+            <div><p className="font-medium">Account security</p><p className="text-sm text-slate-500">Your account is managed by your CRM administrator.</p></div><span className="text-sm text-slate-500">Managed</span></div>
           </div>
           <button type="button" onClick={() => setActivePage("My Profile")} className="mt-4 rounded-lg bg-[#0B1F33] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#163653]">View My Profile</button>
         </section>
@@ -386,7 +388,7 @@ export default function Emp_dashboard() {
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4">
-            <button
+            <Link
               type="button"
               aria-label="Open notifications"
               onClick={() => setActivePage("Notifications")}
@@ -394,12 +396,17 @@ export default function Emp_dashboard() {
             >
               <Bell size={19} />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-orange-500" />
-            </button>
+            </Link>
             <div className="hidden h-9 border-l border-slate-200 sm:block" />
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16A6D1] font-semibold text-white">
-                SE
-              </div>
+              <Link
+                  type="button"
+                  aria-label="Open employee profile"
+                  onClick={() => setActivePage("My Profile")}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16A6D1] font-semibold text-white hover:opacity-90"
+                >
+                  SE
+                </Link>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold">Sales Executive</p>
                 <p className="text-xs text-slate-500">Employee</p>

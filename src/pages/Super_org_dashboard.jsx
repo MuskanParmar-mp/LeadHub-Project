@@ -64,13 +64,13 @@ const menuItems = [
 
   { label: "Dashboard", icon: LayoutDashboard },
 
-  { label: "Notifications", icon: Bell },
+  // { label: "Notifications", icon: Bell },
 
   { label: "Organizations", icon: Building2 },
 
   { label: "Plans & Pricing", icon: CreditCard },
 
-  { label: "Profile", icon: UserRound },
+  // { label: "Profile", icon: UserRound },
 
   { label: "Reports", icon: FileBarChart },
 
