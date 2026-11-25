@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./Login";
 import AdminDashboard from "./pages/AdminDashboard";
-
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Leads from "./pages/Leads";
@@ -15,6 +14,7 @@ import Filter from "./pages/Filter";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Calls from "./pages/Calls";
+
 import Emp_my_lead from "./pages/Emp_my_lead";
 import Emp_follow_up from "./pages/Emp_follow_up";
 import Emp_calls from "./pages/Emp_calls";
@@ -23,10 +23,11 @@ import Emp_task from "./pages/Emp_task";
 import Emp_notification from "./pages/Emp_notification";
 import Emp_profile from "./pages/Emp_profile";
 import Emp_dashboard from "./pages/Emp_dashboard";
-<<<<<<< HEAD
+
 import AdminHeader from "./pages/AdminHeader";
 import Profile from "./pages/Profile";
-=======
+
+// Super Organization / Multi-tenancy
 import Super_org_dashboard from "./pages/Super_org_dashboard";
 import Super_org_organization from "./pages/Super_org_organization";
 import Super_org_plane_and_price from "./pages/Super_org_plane_and_price";
@@ -39,12 +40,10 @@ import Super_org_notification from "./pages/Super_org_notification";
 import Super_org_role_and_permission from "./pages/Super_org_role_and_permission";
 import Super_org_audit_log from "./pages/Super_org_audit_log";
 import Organization from "./pages/Organization_login";
->>>>>>> 9d56081 (multitancy done)
 
 function App() {
   return (
     <Routes>
-
       {/* Website Opening */}
       <Route
         path="/"
@@ -52,36 +51,9 @@ function App() {
       />
 
       {/* Login */}
-      <Route
-        path="/login"
-        element={<Login />}
-      />
-      <Route
-        path="/employees"
-        element={<Employees />}
-      />
-      <Route
-        path="/filter"
-        element={<Filter />}
-      />
-      <Route
-        path="/reports"
-        element={<Reports />}
-      />
-      <Route
-        path="/settings"
-        element={<Settings />}
-      />
-      <Route
-        path="/calls"
-        element={<Calls />}
-      />
-<Route
-        path="/AdminHeader"
-        element={<AdminHeader />}
-      />
+      <Route path="/login" element={<Login />} />
 
-      {/* Protected Admin Dashboard */}
+      {/* Admin Routes */}
       <Route
         path="/admin"
         element={
@@ -91,159 +63,149 @@ function App() {
         }
       />
 
-      {/* Unknown URL */}
       <Route
-        path="*"
-        element={<Navigate to="/login" replace />}
+        path="/admin/leads"
+        element={
+          <ProtectedRoute>
+            <Leads />
+          </ProtectedRoute>
+        }
       />
 
       <Route
-  path="/admin"
-  element={
-    <ProtectedRoute>
-      <AdminDashboard />
-    </ProtectedRoute>
-  }
-/>
+        path="/admin/uploads"
+        element={
+          <ProtectedRoute>
+            <Uploads />
+          </ProtectedRoute>
+        }
+      />
 
-<Route path="/admin/leads" element={
-    <ProtectedRoute>
-      <Leads />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/followups"
+        element={
+          <ProtectedRoute>
+            <FollowUps />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/uploads"
-  element={
-    <ProtectedRoute>
-      <Uploads />
-    </ProtectedRoute>
-  }
-/>
+      <Route path="/employees" element={<Employees />} />
+      <Route path="/filter" element={<Filter />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/calls" element={<Calls />} />
+      <Route path="/AdminHeader" element={<AdminHeader />} />
+      <Route path="/profile" element={<Profile />} />
 
-<Route
+      {/* Employee Routes */}
+      <Route
         path="/pages/Emp_my_lead"
         element={<Emp_my_lead />}
       />
 
-{/* emp follow up */}
-
-<Route
+      <Route
         path="/pages/emp_follow_up"
         element={<Emp_follow_up />}
       />
 
-  <Route
+      <Route
         path="/pages/emp_calls"
         element={<Emp_calls />}
-      /> 
+      />
 
-<Route
+      <Route
         path="/pages/emp_reports"
         element={<Emp_reports />}
-      />  
+      />
 
-<Route
+      <Route
         path="/pages/emp_task"
-        element={<Emp_task/>}
-      />     
-<Route
+        element={<Emp_task />}
+      />
+
+      <Route
         path="/pages/emp_notification"
-        element={<Emp_notification/>}
-      /> 
+        element={<Emp_notification />}
+      />
 
-<Route
+      <Route
         path="/pages/emp_profile"
-        element={<Emp_profile/>}
-      /> 
+        element={<Emp_profile />}
+      />
 
-<Route
+      <Route
         path="/pages/emp_dashboard"
-        element={<Emp_dashboard/>}
-      /> 
-<<<<<<< HEAD
-<Route path="/profile" element={<Profile />} />
-=======
+        element={<Emp_dashboard />}
+      />
 
-
-
-{/* super orgnazation start from here */}
-
-<Route
+      {/* Super Organization Routes */}
+      <Route
         path="/pages/Super_org_dashboard"
         element={<Super_org_dashboard />}
       />
 
-<Route
+      <Route
         path="/pages/super_org_organization"
         element={<Super_org_organization />}
-      />  
+      />
 
-<Route
+      <Route
         path="/pages/super_org_plan_and_price"
         element={<Super_org_plane_and_price />}
-      />  
-<Route
+      />
+
+      <Route
         path="/pages/super_org_subcripation"
         element={<Super_org_subcripation />}
-      />  
+      />
 
-<Route
+      <Route
         path="/pages/super_org_user"
         element={<Super_org_user />}
-      />  
+      />
 
-<Route
+      <Route
         path="/pages/super_org_report"
         element={<Super_org_report />}
       />
 
-<Route
+      <Route
         path="/pages/super_org_profile"
         element={<Super_org_profile />}
       />
 
-<Route
+      <Route
         path="/pages/super_org_support_ticket"
         element={<Super_org_support_ticket />}
       />
 
-<Route
+      <Route
         path="/pages/super_org_notification"
         element={<Super_org_notification />}
-      /> 
+      />
 
-<Route
+      <Route
         path="/pages/super_org_role_and_permission"
         element={<Super_org_role_and_permission />}
       />
 
-<Route
+      <Route
         path="/pages/super_org_audit_log"
         element={<Super_org_audit_log />}
       />
 
-<Route
+      <Route
         path="/pages/organization"
         element={<Organization />}
       />
->>>>>>> 9d56081 (multitancy done)
-<Route
-  path="/admin/followups"
-  element={
-    <ProtectedRoute>
-      <FollowUps />
-    </ProtectedRoute>
-  }
-/>
 
-
+      {/* Unknown URL - Keep Last */}
+      <Route
+        path="*"
+        element={<Navigate to="/login" replace />}
+      />
     </Routes>
-
-    // sales excutive side start from here
-    
-
   );
 }
 
